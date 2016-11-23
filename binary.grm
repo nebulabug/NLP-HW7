@@ -9,3 +9,8 @@ PreTriplets = Zero*;
 NonFinalTriplet = One One One+ Zero+;
 FinalTriplet = One One One+;
 export Triplets = Optimize[PreTriplets NonFinalTriplet* FinalTriplet?];
+
+BinaryString = Bit*;
+Pillar = One One;
+Pillars = Pillar*;
+export NotPillars = Optimize[BinaryString - Pillars];
