@@ -14,3 +14,9 @@ BinaryString = Bit*;
 Pillar = One One;
 Pillars = Pillar*;
 export NotPillars = Optimize[BinaryString - Pillars];
+
+PreOddlets = Zero*;
+NonFinalOddlet = One (One One)* Zero+;
+FinalOddlet = One (One One)*;
+export Oddlets = Optimize[PreOddlets NonFinalOddlet* FinalOddlet?];
+
