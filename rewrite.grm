@@ -4,7 +4,30 @@ Bit = Zero | One;
 
 export Cross = Optimize["a" (("b":"x")* | ("c"+ : "y"*) | ("":"fric")) "a"];
 
-export BitFlip1 = Optimize[((Zero:One)* | (One:Zero)*)*];
+export BitFlip1 = Optimize[((Zero:One)+ | (One:Zero)+)*];
 
+Digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
 
-export BitFlip2 = Optimize[CDRewrite[BitFlip1, 
+export BitFlip2 = Optimize[CDRewrite[BitFlip1, Digit*, Digit*, Digit*, 'sim', 'obl']];
+
+evenBinaryNum = Bit* Zero;
+
+oddBinaryNum = Bit* One;
+
+export Parity1 = Optimize[(evenBinaryNum:Zero) | (oddBinaryNum:One)];
+
+FirstBit = (One Bit*:One) | (Zero Bit*:Zero);
+
+export Parity2 = Optimize[Reverse[FirstBit]];
+
+ChangeToEpsilon = Bit+:"";
+
+export Parity3 = Optimize[Bit+ @ CDRewrite[ChangeToEpsilon, "[BOS]", Bit, Bit*, 'ltr', 'obl']];
+
+export UnParity = Invert[Parity3];
+
+export Split = Optimize[CDRewrite["":" ", Bit, Bit, (Bit | " ")*, 'ltr', 'opt']];
+
+TwoSpaces = Bit+ " " Bit+ " " Bit+;
+
+export SplitThree = Split @ TwoSpaces;
