@@ -1,1 +1,10 @@
+Zero = "0";
+One = "1";
+Bit = Zero | One;
+
 export Cross = Optimize["a" (("b":"x")* | ("c"+ : "y"*) | ("":"fric")) "a"];
+
+export BitFlip1 = Optimize[((Zero:One)* | (One:Zero)*)*];
+
+
+export BitFlip2 = Optimize[CDRewrite[BitFlip1, 
