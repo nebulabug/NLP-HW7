@@ -1,0 +1,49 @@
+question 2, part a
+
+i) nothing to report
+
+ii) What language does First accept?
+Strings that start with one 0 and end in 111, and have any number of 0s or 1s in between them. 0 and 1 are quoted because they are strings (characters)
+
+iii) 5 states, 9 arcs
+
+part b
+
+i) yes, nothing to report
+
+ii) yes, they must be equivalent. Disagreements.fst has 0 states and 0 arcs, so it accepts nothing. This means there are no strings that are in (First - Second) or (Second - First), so they are equivalent.
+
+
+part c
+
+i) First has 20 states and 25 arcs; Second has 13 states and 18 arcs
+
+ii) Since the unoptimized FSTs for First and Second are actually represented differently, the union of the two has to be constructed by branching from start to (First - Second) and start to (Second - First). That is, it is not the case that (First - Second) is equivalent to (Second - First), so Disagreements must have branching.
+
+iii) trick question? the results seem the same. It's not optimized but it's still the same regular expression. So while it uses many more states/arcs than it needs to, it still will "accept" the same strings as before.
+
+part d
+
+If we optimize Disagreements without first optimizing First and Second, we again get an FST with 0 states and 0 arcs. So it must be that the optimization realizes that each branch in the unoptimized version does not accept any string.
+
+question 4, part a
+
+input language = "a" ("b"* | "c"+) "a"
+
+part b
+
+"abca" is mapped to 0 outputs, it is not a possible input string
+
+"aba" is mapped to 1 output. More generally, "a" "b"* "a" is mapped to 1 output.
+
+"aa" is mapped to 2 output, "africa" and "aa". This is because we can either use the "":"fric" rule or the "b":"x" rule, since we have 0 or more "b"s, so we produce 0 "x"s.
+
+"aca" is mapped to more than 2 outputs. More generally, "a" "c"+ "a" is mapped to more than 2 outputs.
+
+part c
+
+Don't have to hand in anything for this, but should think about it: how would you describe the Cross relation in English?
+
+part d
+
+Yes, it is consistent with our answers above. It has 10 states and 16 arcs.
