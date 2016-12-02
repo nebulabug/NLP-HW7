@@ -50,8 +50,10 @@ export FinalNoun = SigmaStar - NonfinalNoun;
 
 #SigmaStar ((Nmod)+ Noun)
 
-export CheckNmod = Optimize[SigmaStar - (SigmaStar "Nmod" (SigmaStar - (N|"Nmod")))];
+#NonPreFinalNmod = SigmaStar (Nmod )
 
+export CheckNmod = Optimize[SigmaStar - (SigmaStar "Nmod" (SigmaStar - (N|"Nmod") SigmaStar))];
 
+export TransformNP2 = OptNounReplacement @ FinalNoun @ CheckNmod;
 
 
