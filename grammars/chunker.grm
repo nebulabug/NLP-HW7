@@ -4,8 +4,6 @@ import 'tags.grm' as tags;
 Sigma = (tags.Tags) | (bytelib.kBytes);
 SigmaStar = Optimize[Sigma*];
 
-# YOU WILL FILL IN THE REST
-
 Q = "Quant";
 
 N = "Noun";
@@ -13,6 +11,8 @@ N = "Noun";
 Ar = "Art";
 
 Adj = "Adj";
+
+V = "Verb";
 
 export NP = Optimize[(Ar|Q)? Adj* N+];
 
@@ -26,6 +26,32 @@ export Brackets1 = Optimize[SigmaStar (BracketNP SigmaStar)*];
 
 export Brackets2 = CDRewrite[BracketNP, "", "", SigmaStar, 'sim', 'obl'];
 
-export BracketTransform = CDRewrite[("": "<") TransformNP ("" : ">"), "", "", SigmaStar, 'sim', 'obl'];
+export BracketTransform = Optimize[CDRewrite[("": "<") TransformNP ("" : ">"), "", "", SigmaStar, 'sim', 'obl']];
 
-#export BracketResults = Project(fst, ___, "input")
+export InputStrings = Q N+ V;
+
+export BracketResults = Optimize[Project[InputStrings @ BracketTransform, 'output']];
+
+export CrossProduct = "":BracketResults;
+
+#machine 1
+export OptNounReplacement = Optimize[SigmaStar ((N:"Nmod") SigmaStar)*];
+
+export NonfinalNoun = SigmaStar (N (N|"Nmod")+) SigmaStar;
+
+#machine 2
+export FinalNoun = SigmaStar - NonfinalNoun;
+
+# Nmod Nmod == BAD
+# Nmod Noun == GOOD
+# Nmod == BAD
+# Nmod Verb = BAD
+# Nmod Nmod Noun = GOOD
+
+#SigmaStar ((Nmod)+ Noun)
+
+export CheckNmod = Optimize[SigmaStar - (SigmaStar "Nmod" (SigmaStar - (N|"Nmod")))];
+
+
+
+

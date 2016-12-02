@@ -14,6 +14,8 @@ Ar = "Art";
 
 Adj = "Adj";
 
+V = "Verb";
+
 export NP = Optimize[(Ar|Q)? Adj* N+];
 
 export MakeNmod = Optimize[CDRewrite[N:"Nmod", SigmaStar, N, SigmaStar, 'ltr', 'obl']];
@@ -26,6 +28,10 @@ export Brackets1 = Optimize[SigmaStar (BracketNP SigmaStar)*];
 
 export Brackets2 = CDRewrite[BracketNP, "", "", SigmaStar, 'sim', 'obl'];
 
-export BracketTransform = CDRewrite[("": "<") TransformNP ("" : ">"), "", "", SigmaStar, 'sim', 'obl'];
+export BracketTransform = Optimize[CDRewrite[("": "<") TransformNP ("" : ">"), "", "", SigmaStar, 'sim', 'obl']];
 
-export BracketResults = Project(fst, ___, "input")
+export InputStrings = Q N+ V;
+
+export BracketResultsUnprojected = Optimize[InputStrings @ BracketTransform];
+
+export BracketResults = Optimize[Project[InputStrings @ BracketTransform, 'output']];
