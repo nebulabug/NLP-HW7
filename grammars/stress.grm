@@ -5,4 +5,27 @@ Vowel = "a" | "e" | "i" | "o" | "u" | "A" | "E" | "I" | "O" | "U";
 Consonant = Letter - Vowel;
 Nucleus = Vowel+;
 
-# YOU WILL FILL IN THE REST
+## new code
+
+SigmaStar = (Sigma | "#")*;
+
+# handles (1)
+export FindNuclei = (Consonant* (("":"#")|("'":"'")) Nucleus Consonant+)* Consonant* ((("":"#")|("'":"'")) Nucleus)? Consonant*;
+
+export LastSyllableStressed = SigmaStar "'" Nucleus Consonant*;
+
+export LastSyllableUnstressed = SigmaStar - LastSyllableStressed;
+
+export NextSyllableUnstressed = (Nucleus Consonant* "#" SigmaStar);
+
+# s'up#erc'al#ifr#ag#il#ist#ic#exp#iy#al#id#oc#ious
+# s'uperc'alifr'agil'istic'expiy'alid'ocious
+
+# r#ound#ab#out
+
+#should be:
+# r'ound#ab#out
+
+export Stress1 = CDRewrite["#":"'", LastSyllableUnstressed, NextSyllableUnstressed, SigmaStar, 'ltr', 'obl'];
+
+export Stress2 = Optimize[FindNuclei @ Stress1];
