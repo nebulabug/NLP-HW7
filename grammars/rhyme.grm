@@ -29,3 +29,8 @@ Consonant = arpabet.Consonant;
 Phoneme = arpabet.Phoneme;
 
 export Ending = (Phoneme*:"".arpa) Stressed ((Unstressed|Consonant)*);
+
+export WordEnding = Pronounce @ Ending;
+
+export InvWordEnding = Invert[WordEnding];
+
