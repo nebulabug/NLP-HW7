@@ -1,6 +1,6 @@
 import 'byte.grm' as bytelib;   # copy this file from grammars/byte.grm
 Letter = bytelib.kAlpha;        # kAlpha is defined in byte.grm
-Sigma = Letter | "'";           # alphabet also includes stress mark
+Sigma = Letter | "'" | "^" | "$";           # alphabet also includes stress mark
 Vowel = "a" | "e" | "i" | "o" | "u" | "A" | "E" | "I" | "O" | "U";
 Consonant = Letter - Vowel;
 Nucleus = Vowel+;
@@ -27,7 +27,7 @@ export RemovePounds = CDRewrite["#":"", SigmaStar, SigmaStar, SigmaStar, 'sim', 
 export StressRewrite = CDRewrite["#":"'", LastSyllableNotStressed, NextSyllableUnstressed, SigmaStar, 'ltr', 'obl'];
 
 # handles 4: the case where the word is only one syllable, which should be stressed
-export OneSyllableStress = (Consonant* ("":"'") "'"? Nucleus Consonant*) | Consonant* "'"? Nucleus Consonant* "'"? Nucleus SigmaStar;
+export OneSyllableStress = (Consonant* ("":"'") "'"? Nucleus Consonant*) | Consonant* "'"? Nucleus Consonant+ "'"? Nucleus SigmaStar;
 
 # composition of all the relevant FSTs
 export Stress = Optimize[FindNuclei @ StressRewrite @ RemovePounds @ OneSyllableStress];
@@ -36,3 +36,32 @@ export StressBackwards = Invert[Stress];
 
 
 export StressWords = CDRewrite[Stress, "[BOS]" | (AllChars - Sigma)+, "[EOS]" | (AllChars - Sigma)+, AllChars*, 'ltr', 'obl'];
+
+
+
+
+# Extra credit below: we had to make new instances of these functions to deal with the new 'vowel' representations
+
+# new nucleus includes "^" (lowercase y) and "$" (uppercase Y)
+NucleusWithY = (Vowel | "^" | "$")+;
+
+# new find nucleus with our new definition of nucleus
+export FindNucleiWithY = ("":"#") (Consonant* (("":"#")|("'":"'")) NucleusWithY Consonant+)* Consonant* ((("":"#")|("'":"'")) NucleusWithY)? Consonant*;
+
+# this includes nucleus so we changed that to the new special-Y nucleus
+export NextSyllableUnstressedWithY = (NucleusWithY Consonant* "#" SigmaStar);
+
+# had to change this with our new nucleus definition
+export OneSyllableStressWithY = (Consonant* ("":"'") "'"? NucleusWithY Consonant*) | (Consonant* "'"? NucleusWithY Consonant+ "'"? NucleusWithY SigmaStar);
+
+# final version of stress
+export StressWithY = Optimize[FindNucleiWithY @ StressRewrite @ RemovePounds @ OneSyllableStressWithY];
+
+# Changed lowercase y to "^" or uppercase Y to "$" when it was followed by a consonant or [EOS]
+export ConvertY = CDRewrite[("y":"^") | ("Y":"$"), SigmaStar, "[EOS]" | Consonant, SigmaStar, 'sim', 'obl'];
+
+# Changed all of the $ and ^ back to Y and y. This is the main reason we had to create new functions for the EC. In StressWords, we have to allow punctuation of any kind, which we would not want to lose. In the EC version, we are treating ^ and $ as vowels and converting them to y and Y after inserting stress.
+export ConvertBack = CDRewrite[("^":"y") | ("$":"Y"), SigmaStar, SigmaStar, SigmaStar, 'sim', 'obl'];
+
+# Final version of Stressy
+export Stressy = ConvertY @ StressWithY @ ConvertBack;
