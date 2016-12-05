@@ -5,27 +5,34 @@ Vowel = "a" | "e" | "i" | "o" | "u" | "A" | "E" | "I" | "O" | "U";
 Consonant = Letter - Vowel;
 Nucleus = Vowel+;
 
+AllChars = bytelib.kBytes;
+
 ## new code
 
 SigmaStar = (Sigma | "#")*;
 
-# handles (1)
-export FindNuclei = (Consonant* (("":"#")|("'":"'")) Nucleus Consonant+)* Consonant* ((("":"#")|("'":"'")) Nucleus)? Consonant*;
+# handles 1: inserts # before nuclei and at the beginning of the word
+export FindNuclei = ("":"#") (Consonant* (("":"#")|("'":"'")) Nucleus Consonant+)* Consonant* ((("":"#")|("'":"'")) Nucleus)? Consonant*;
 
-export LastSyllableStressed = SigmaStar "'" Nucleus Consonant*;
+# handles 2: left context = # followed by letters means that last syllable was not stressed
+export LastSyllableNotStressed = "#" Letter*;
 
-export LastSyllableUnstressed = SigmaStar - LastSyllableStressed;
-
+# handles 3: right context = nucleus + consonants + # means the next syllable is not stressed
 export NextSyllableUnstressed = (Nucleus Consonant* "#" SigmaStar);
 
-# s'up#erc'al#ifr#ag#il#ist#ic#exp#iy#al#id#oc#ious
-# s'uperc'alifr'agil'istic'expiy'alid'ocious
+# removes extraneous # from word after inserting proper amount of stress markers
+export RemovePounds = CDRewrite["#":"", SigmaStar, SigmaStar, SigmaStar, 'sim', 'obl'];
 
-# r#ound#ab#out
+# the CDRewrite equation for Stress (replaces # with ' when conditions 1-3 are satisfied)
+export StressRewrite = CDRewrite["#":"'", LastSyllableNotStressed, NextSyllableUnstressed, SigmaStar, 'ltr', 'obl'];
 
-#should be:
-# r'ound#ab#out
+# handles 4: the case where the word is only one syllable, which should be stressed
+export OneSyllableStress = (Consonant* ("":"'") "'"? Nucleus Consonant*) | Consonant* "'"? Nucleus Consonant* "'"? Nucleus SigmaStar;
 
-export Stress1 = CDRewrite["#":"'", LastSyllableUnstressed, NextSyllableUnstressed, SigmaStar, 'ltr', 'obl'];
+# composition of all the relevant FSTs
+export Stress = Optimize[FindNuclei @ StressRewrite @ RemovePounds @ OneSyllableStress];
 
-export Stress2 = Optimize[FindNuclei @ Stress1];
+export StressBackwards = Invert[Stress];
+
+
+export StressWords = CDRewrite[Stress, "[BOS]" | (AllChars - Sigma)+, "[EOS]" | (AllChars - Sigma)+, AllChars*, 'ltr', 'obl'];
