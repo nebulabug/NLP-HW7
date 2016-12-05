@@ -1,22 +1,31 @@
 import 'byte.grm' as bytelib;
 import 'arpabet.grm' as arpabet;
 
-arpasyms = SymbolTable['symbol_tables/arpabet.sym'];
-
-Arpa = arpabet.Arpa;
-Accent = arpabet.Accent;
-
-export cmudict = StringFile['../data/cmudict.txt', byte, arpasyms];
-cmuwords = Project[cmudict,'input'];
+arpa = SymbolTable['arpabet.sym'];
 
 
-initSplit = ((Arpa : "<epsilon>".arpasyms)*);
-export stripPrefix = Optimize[ initSplit Accent (Arpa - Accent)*];
+#Arpa = arpabet.Arpa;
+#Accent = arpabet.Accent;
 
-r1 = Optimize[ cmudict @ stripPrefix ];
-export rhyme = Optimize[ r1 ];
-
-i1 = Optimize[Invert[ r1 ] ];
-export rhymeInvert = Optimize[ i1 ];
+#export cmudict = StringFile['../data/cmudict.txt', byte, arpa];
+#cmuwords = Project[cmudict,'input'];
 
 
+#initSplit = ((Arpa : "<epsilon>".arpasyms)*);
+#export stripPrefix = Optimize[ initSplit Accent (Arpa - Accent)*];
+
+#r1 = Optimize[ cmudict @ stripPrefix ];
+#export rhyme = Optimize[ r1 ];
+
+#i1 = Optimize[Invert[ r1 ] ];
+#export rhymeInvert = Optimize[ i1 ];
+
+
+Pronounce = StringFile['../data/cmudict.txt', byte, arpa];
+
+Stressed = arpabet.Stressed;
+Unstressed = arpabet.Unstressed;
+Consonant = arpabet.Consonant;
+Phoneme = arpabet.Phoneme;
+
+export Ending = (Phoneme*:"".arpa) Stressed ((Unstressed|Consonant)*);
