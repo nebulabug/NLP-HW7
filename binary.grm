@@ -20,3 +20,6 @@ NonFinalOddlet = One (One One)* Zero+;
 FinalOddlet = One (One One)*;
 export Oddlets = Optimize[PreOddlets NonFinalOddlet* FinalOddlet?];
 
+export WFlip = ((Zero: One <2>) | (Zero: Zero <1>)) ((Zero: Zero One <0.5>) | (One: Zero <0.4>))+ (One <0.5>);
+
+(x, y) = 
