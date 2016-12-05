@@ -6,7 +6,7 @@ arpasyms = SymbolTable['symbol_tables/arpabet.sym'];
 Arpa = arpabet.Arpa;
 Accent = arpabet.Accent;
 
-export cmudict = StringFile['data/cmudict.txt', byte, arpasyms];
+export cmudict = StringFile['../data/cmudict.txt', byte, arpasyms];
 cmuwords = Project[cmudict,'input'];
 
 
@@ -18,3 +18,5 @@ export rhyme = Optimize[ r1 ];
 
 i1 = Optimize[Invert[ r1 ] ];
 export rhymeInvert = Optimize[ i1 ];
+
+
