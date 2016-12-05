@@ -3,24 +3,6 @@ import 'arpabet.grm' as arpabet;
 
 arpa = SymbolTable['arpabet.sym'];
 
-
-#Arpa = arpabet.Arpa;
-#Accent = arpabet.Accent;
-
-#export cmudict = StringFile['../data/cmudict.txt', byte, arpa];
-#cmuwords = Project[cmudict,'input'];
-
-
-#initSplit = ((Arpa : "<epsilon>".arpasyms)*);
-#export stripPrefix = Optimize[ initSplit Accent (Arpa - Accent)*];
-
-#r1 = Optimize[ cmudict @ stripPrefix ];
-#export rhyme = Optimize[ r1 ];
-
-#i1 = Optimize[Invert[ r1 ] ];
-#export rhymeInvert = Optimize[ i1 ];
-
-
 Pronounce = StringFile['../data/cmudict.txt', byte, arpa];
 
 Stressed = arpabet.Stressed;

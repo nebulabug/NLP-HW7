@@ -22,4 +22,20 @@ export Oddlets = Optimize[PreOddlets NonFinalOddlet* FinalOddlet?];
 
 export WFlip = ((Zero: One <2>) | (Zero: Zero <1>)) ((Zero: Zero One <0.5>) | (One: Zero <0.4>))+ (One <0.5>);
 
-(x, y) = 
+export WeightedMultipath = ((Zero: One <0.5>) (Zero: "" <0.6>)) | ((Zero: "" <0.2>) (Zero: One <0.1>));
+
+export WeightedMultipathOpt = Optimize[WeightedMultipath];
+
+export T = WeightedMultipathOpt;
+
+x = Zero Zero;
+y = One;
+
+export T_out = Project[ T, 'output'];
+export xT_out = Project[ x @ T, 'output'];
+export Ty_in = Project[ T @ y, 'input'];
+export xTy = x @ T @ y;
+export exTye = ("":x) @ T @ (y:"");
+export xT_out_opt = Optimize[xT_out];
+export Ty_in_opt = Optimize[Ty_in];
+export exTye_opt = Optimize[exTye];
