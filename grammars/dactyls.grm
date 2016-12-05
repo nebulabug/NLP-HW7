@@ -1,29 +1,29 @@
-#import 'byte.grm' as bytelib;
-#Sigma = bytelib.kGraph | bytelib.kSpace;
+import 'byte.grm' as bytelib;
 import 'arpabet.grm' as arpabet;
+Sigma = bytelib.kGraph | bytelib.kSpace;
 
-#arpa = SymbolTable['../symbol_tables/arpabet.sym'];
+
+arpa = SymbolTable['arpabet.sym'];
 #EmptyArpa = "".arpa;
 
+#Pronounce = StringFile['../data/cmudict.txt'];
 
 #StressPattern = CDRewrite[(Sigma - bytelib.kDigit) : "", "", "", Sigma*, 'sim', 'obl'];
 #Dacytl = ("1" | "2") "0" "0";  
 #export Results = Optimize[Project[Pronounce @ StressPattern @ (Dacytl*), 'input']];
 
-export Test = "";
-
 
 ### new code for part d
 
-#Stressed = arpabet.Stressed;
-#Unstressed = arpabet.Unstressed;
+Stressed = arpabet.Stressed;
+Unstressed = arpabet.Unstressed;
+Consonant = arpabet.Consonant;
 
-#Pronounce = StringFile['../data/cmudict.txt', byte, arpa];
+Pronounce = StringFile['../data/cmudict.txt', byte, arpa];
 
-#Dactyl = Stressed Unstressed Unstressed;
+Dactyl = Consonant* Stressed Consonant* Unstressed Consonant* Unstressed Consonant*;
 
-#export Results = Optimize[Project[Pronounce @ (Dactyl*), 'input']];
+export Results = Optimize[Project[Pronounce @ (Dactyl*), 'input']];
 
-
-#export ListResults = "" : Results;
+export ListResults = "" : Results;
 
