@@ -1,4 +1,4 @@
-import 'byte.grm' as bytelib;        # load a simple grammar (.grm)
+import 'grammars/byte.grm' as bytelib;        # load a simple grammar (.grm)
 ByteSigma = (bytelib.kSpace | bytelib.kGraph);  # printable characters
 ByteSigmaStar = Optimize[ByteSigma*];
 
@@ -6,8 +6,6 @@ export LM = LoadFst['entrain.fst'];  # load trigram language model (.fst)
 vocab = SymbolTable['entrain.sym'];  # load model's symbol table (.sym)
 Spell = StringFile['entrain.alpha', vocab, byte];
 
-# YOU WILL FILL IN THE REST
+#export CompleteWord = Optimize[(ByteSigmaStar ("":ByteSigmaStar) @ Project[Spell, 'output']) @ Invert[Spell] @ LM];
 
-
-
-
+export DelSpaces = CDRewrite[bytelib.kSpace:"", ByteSigmaStar, ByteSigmaStar, ByteSigmaStar, 'sim', 'obl'];
