@@ -1,4 +1,4 @@
-stress.far: stress.grm byte.far
+noisy.far: noisy.grm byte.far entrain.fst entrain.sym entrain.alpha
 	thraxcompiler --save_symbols --input_grammar=$< --output_far=$@
 
 byte.far: byte.grm 

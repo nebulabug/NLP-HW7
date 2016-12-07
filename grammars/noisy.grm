@@ -4,8 +4,30 @@ ByteSigmaStar = Optimize[ByteSigma*];
 
 export LM = LoadFst['entrain.fst'];  # load trigram language model (.fst)
 vocab = SymbolTable['entrain.sym'];  # load model's symbol table (.sym)
-Spell = StringFile['entrain.alpha', vocab, byte];
+
+RandomChar = bytelib.kGraph <4.54>;
+export RandomWord = Optimize[(RandomChar (RandomChar <0.1>)*) <2.3>];
+SpellOOV = "<unk>".vocab:RandomWord;
+
+export Spell = StringFile['entrain.alpha', vocab, byte] | SpellOOV;
 
 #export CompleteWord = Optimize[(ByteSigmaStar ("":ByteSigmaStar) @ Project[Spell, 'output']) @ Invert[Spell] @ LM];
 
 export DelSpaces = CDRewrite[bytelib.kSpace:"", ByteSigmaStar, ByteSigmaStar, ByteSigmaStar, 'sim', 'obl'];
+
+export OutputSpace = "".vocab:" ".byte;
+
+export SpellText = (Spell OutputSpace)* Spell;
+
+#export Generate = LM @ SpellText @ DelSpaces;
+
+export InvLM = Invert[LM];
+
+export InvSpellText = Invert[SpellText];
+
+export InvDelSpaces = Invert[DelSpaces];
+
+export SpellUnk = (StringFile['entrain.alpha', vocab, byte] | ("<unk>".vocab:"<unk>".byte));
+
+export PrintText = (SpellUnk OutputSpace)* SpellUnk;
+
