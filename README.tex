@@ -1,0 +1,565 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+% This is a simple template for a LaTeX document using the "article" class.
+% See "book", "report", "letter" for other types of document.
+
+\documentclass[11pt]{article} % use larger type; default would be 10pt
+
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+\usepackage{graphicx}
+
+%%% Examples of Article customizations
+% These packages are optional, depending whether you want the features they provide.
+% See the LaTeX Companion or other references for full information.
+
+%%% PAGE DIMENSIONS
+\usepackage{geometry} % to change the page dimensions
+\geometry{a4paper} % or letterpaper (US) or a5paper or....
+% \geometry{margins=2in} % for example, change the margins to 2 inches all round
+% \geometry{landscape} % set up the page for landscape
+%   read geometry.pdf for detailed page layout information
+
+\usepackage{graphicx} % support the \includegraphics command and options
+
+% \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+
+%%% HEADERS & FOOTERS
+\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
+\pagestyle{fancy} % options: empty , plain , fancy
+\renewcommand{\headrulewidth}{0pt} % customise the layout...
+\lhead{}\chead{}\rhead{}
+\lfoot{}\cfoot{\thepage}\rfoot{}
+\setlength{\parindent}{0pt}
+
+\title{NLP HW6}
+\author{Becky Marvin and Pamela Shapiro}
+%\date{} % Activate to display a given date or no date (if empty),
+         % otherwise the current date is printed 
+
+\begin{document}
+\maketitle
+
+We went through the first couple basic questions individually over break and then merged answers. The less trivial questions we solved together.\\
+
+\section{}
+Nothing to answer
+
+\section{}
+
+a)
+
+ii. What language does First accept (describe it in English)? Why are 0 and 1 quoted in the .grm file?\\
+
+First accepts binary strings that begin with a zero and ends with three ones. 0 and 1 are quoted in the .grm file because ``Basic string FSTs are defined by text enclosed by double quotes (")"\\
+
+
+iii. Let’s get information about First. Look over this output: how many states are there? How many arcs?\\
+
+
+There are 5 states and 9 arcs.\\
+
+\newpage
+
+(b) Now let’s look at equivalent ways of describing the same language. \\
+
+
+i. Can you find a more concise way of defining First’s language?\\
+
+
+export Second = Optimize[Zero Bit* One One One];\\
+
+
+ii. Both the checks provided confirmed that First = Second. Disagreements.fst has 0 states and 0 arcs, so it accepts nothing. This means there are no strings that are in (First - Second) or (Second - First), so they are equivalent.\\
+
+
+(c) \\
+
+
+i. Although First and Second may be equal, their unoptimized FSMs have different sizes and different topologies, reflecting the different regular expressions that they were compiled from. How big is each one? \\
+
+
+First has 20 states and 25 arcs\\
+Second has 13 states and 16 arcs\\
+Disagreements has 67 states and 86 arcs\\
+
+
+ii. The drawing of the unoptimized Disagreements.fst shows that it immediately branches at the start state into two separate sub-FSAs. Why? (Hint: Look back at the regexp that defined Disagreements.) \\
+
+Disagreements is written as the union of two regexes, and you can implement that in FSAs by adding a start state with an arc to the start state of each regex represented as a sub-FSA. Since the unoptimized FSTs for First and Second are actually represented differently, the union of the two has to be constructed by branching from start to (First - Second) and start to (Second - First). That is, it is not the case that (First - Second) is equivalent to (Second - First), so Disagreements must have branching.\\
+
+
+iii. Now test some sample inputs with grmtest binary-unopt.grm First How are the results different from the optimized version? Why?\\
+
+
+Before openFST was updated on the ugrad machines: In the unoptimized version, multiple copies of the output string are returned for a given input string. This is because in the unoptimized version, there might be multiple paths that accept the same string, whereas in the optimized version there is only one.\\
+
+
+With the recent version of openFST: trick question? the results seem the same. It's not optimized but it's still the same regular expression. So while it uses many more states/arcs than it needs to, it still will "accept" the same strings as before.\\
+
+\newpage
+
+(d) You may not want to call Optimize on every machine or regular sub-expression. The documentation offers the following warning: \\
+
+
+When using composition, it is often a good idea to call Optimize[] on the arguments; some compositions can be massively sped up via argument optimization. However, calling Optimize[] across the board (which one can do via the flag --optimize all fsts) often results in redundant work and can slow down compilation speeds on the whole. Judicious use of optimization is a bit of a black art. \\
+
+
+If you optimize Disagreements without first optimizing First and Second, what do you get and why?\\
+
+
+If we optimize Disagreements without first optimizing First and Second, we still get an FSA with 0 states and 0 arcs, which is equivalent to what happens when we first optimize First and Second. So it must be that the optimization realizes that each branch in the unoptimized version does not accept any string.\\
+
+
+\section{}
+
+See Github binary.grm\\
+
+\newpage
+
+\section{}
+
+Working with rewrite.grm:\\
+
+
+export Cross = ``a" ((``b":``x")* $|$ (``c"+ : ``y"*) $|$ (``":``fric")) ``a";\\
+
+
+(a) What is the input language of this relation (answer with an ordinary regexp)? \\
+
+
+``a" (``b"* $|$ ``c"+) ``a"\\
+
+
+(b) Give inputs that are mapped by Cross to 0 outputs, 1 output, 2 outputs, and more than 2 outputs. \\
+
+``a” is mapped to 0 outputs\\
+``aba” is mapped to 1 output. More generally, ``a" ``b"* ``a" is mapped to 1 output.\\
+``aa” is mapped to 2 outputs. This is because we can either use the ``":``fric" rule or the ``b":``x" rule, since we have 0 or more ``b"s, so we produce 0 ``x"s.\\
+``aca” is mapped to more than 2 outputs. More generally, ``a" ``c"+ ``a" is mapped to more than 2 outputs.\\
+
+(c) How would you describe the Cross relation in English? (You do not have to hand in an answer for this, but at least think about it.) \\
+
+Takes in strings beginning and ending with an a, with optionally zero or more b’s or one or more c’s in the middle. a’s are transduced to a’s, b’s are transduced to x’s, and c’s are transduced to zero or more y’s. If there are no b’s or c’s in the middle, either this is zero b’s, in which case nothing happens, or this is epsilon, in which case we transduce ``fric”.\\
+
+
+(d) Make an Optimized version of Cross and look at it with fstview. Is it consistent with your answers above? How many states and arcs? \\
+
+Yes, it is consistent with my answers above. It has 10 states and 16 arcs.\\
+
+\newpage
+
+\section{}
+
+(a) BitFlip1: See code\\
+
+(b) BitFlip2: See code \\
+
+(c) Parity1: Some people think the empty string  is a valid binary number (representing 0), while others don’t. What does your transducer think?\\
+
+Our transducer thinks that the empty string is not a valid binary number.\\
+(d) Parity2: See code\\
+
+
+(e) Parity3: Same thing as Parity1, but this use CDRewrite in your definition. What does this transducer think about epsilon? \\
+
+It does not consid epsilon a valid binary number.\\
+
+(f) UnParity: Define this as Invert[Parity3]. What does it do?\\
+
+UnParity takes in 0 or 1 and returns many even or odd binary numbers respectively. In particular, it does not allow an input of epsilon or an input of any digit not 0 or 1, or any strings of 0s and 1s longer than length 1.\\
+
+(g) Split: see code\\
+
+(h) Extra Credit, SplitThree: see code\\
+
+\newpage
+
+\section{}
+
+(a)\\
+
+i. Define an FSA NP that accepts an optional article (Art) or quantifier (Quant); followed by an arbitrary number of adjectives (Adj); followed by at least one noun (Noun). We would like to write: export NP = Optimize[(Art$|$Quant)? Adj* Noun+]; What goes wrong?\\
+
+This doesn’t work because these terms have to have quotations marks around them. The tags are just represented as strings of characters, not as variables representing anything else.\\
+
+This accepts things like ``ArtAdjAdjNoun”, \\
+``AdjNounNounNoun”, ``QuantNoun”, ``AdjNoun”, ``Noun”, etc.\\
+
+ii. There are 13 states and 17 arcs. The FST uses letters on the arcs to represent different tags like ``Quant” and ``Art”. That is, ``Quant” is represented by ``Q:Q”, ``u:u”, etc. This is counterintuitive to our understanding of tags, where we would expect ``Quant:Quant” to be one arc instead of five.\\
+
+(b) See code\\
+
+(c)\\
+
+i. TransformNP will take an NP and change all of the non-final Nouns to Nmods. It won’t accept input that is not an NP.\\
+
+ii. Results on ArtAdjNounNounNoun: ArtAdjNmodNmodNoun\\
+Results on AdjNounNounNounVerb: Rewrite failed.\\
+
+iii. TransformNP has more states (16) than MakeNmod (14), but it has significantly fewer arcs (20) than MakeNmod (2047). TransformNP has more states since it has to also check if the input is a NP. MakeNmod has more arcs, however, because it is not only limited to the characters present in NP (it has to deal with a much larger possible alphabet).\\
+
+iv. TransformNP has an additional loop after reading ``N” that changes ``Noun” to ``Nmod” when it is not the final ``Noun”.\\
+
+\newpage
+
+(d) One difference is that Brackets1 produces outputs that potentially do not have brackets around an NP, like in AdjNoun (since we have (BracketNP SigmaStar)* which allows for 0 instances). However, Brackets2 does not ever produce outputs that don’t put brackets around an NP (since it’s obligatory). If we instead changed the ‘obl’ in Brackets2 to ‘opt’, the two FSTs would be equivalent.\\
+
+(e) See code\\
+
+(f) See code\\
+
+(g) Extra Credit, See code
+Question: Original TransformNP does not accept strings which are not NPs (e.g. AdjNounVerb => Rewrite failed). TransformNP2, if it is just the composition of the three specified FSTs, allows for non-NP inputs (it just replaces Noun with Nmod before a final Noun). Do we want it to only accept NPs? (Perhaps a Piazza post)\\
+
+\newpage
+
+\section{}
+
+(a) See code (and comments in code)\\
+
+
+(b) Run the transducer backwards using Invert[Stress]. What possible inputs from the lexicon could give rise to the observed pronunciation ev’apor’ating? How about ’incomm’unic’ado? \\
+
+Input string: ev'apor'ating\\
+Output string: ev'aporating\\
+Output string: ev'apor'ating\\
+
+Input string: 'incomm'unic'ado\\
+Output string: 'incomm'unicado\\
+Output string: incomm'unic'ado\\
+Output string: incommunic'ado\\
+Output string: 'incommunic'ado\\
+Output string: incomm'unicado\\
+Output string: 'incomm'unic'ado\\
+Output string: 'incommunicado\\
+Output string: incommunicado\\
+
+(c) See code\\
+
+(d) Extra credit: We determined that we can treat y as a vowel if it's not followed by a vowel. For example, in ``happy” or ``rhythm” or ``Ypsilanti”, the ‘y’ functions as a vowel. In ``yet” or ``crayon”, ‘y’ functions as a consonant. We had to rewrite some of the intermediate steps of Stress to get this to work without breaking StressWords, since we were using '\$’ and ‘\string^’ as vowel versions of ‘Y’ and ‘y’ respectively.\\
+
+\newpage
+
+\section{}
+
+(a) love, prove, and grove\\
+
+(b) There seem to be two ways to pronounce the ``a”s in academic and academy. The stressed ``a” is pronounced differently than the unstressed ``a” in each word.\\
+
+(c) Results will give us the strings that are pronounced as a series of dactyls (0 or more strings of stressed-unstressed-unstressed phonemes).\\
+
+(d) See code\\
+
+(e) See code\\
+
+(f) Now define an FST WordEnding that maps an ASCII word to the rhyming ending of its pronunciation. It should map academic (8 letters) to EH1 M IH0 K (4 phonemes). Probably a good idea to Optimize this machine. What are its domain and range?\\
+
+The domain is strings in the CMU dictionary and the range are sequences of phonemes, represented as ARPA symbols, that represent possible rhyme endings that occur in these strings. \\
+
+(g) What does WordEnding @ Invert[WordEnding] describe? What are its input and output alphabets? \\
+
+The input is all strings in the CMU dict and the output is all strings in the CMU dict that have the same rhyme ending (i.e. input is one word, output is all rhyming words in the dictionary)\\
+Thus the input and output alphabets consist of letters that appear in strings in the CMU dict.\\
+
+(h) What happens when you try to build the FSM for WordEnding @ Invert[WordEnding]? Why? Be specific about what is happening in the machine composition.\\
+
+The machine runs out of memory trying to build this FSM. (Actually, there is just enough memory for it to work, but it is very inefficient). It is so big because this machine composition must have paths for every pair of rhyming words.\\
+
+\newpage
+
+(i) Instead of using grmtest to pass an input word w through the composition above, i.e., w @ (WordEnding @ Invert[WordEnding]) you can pass it through one transducer at a time, i.e, (w @ WordEnding) @ Invert[WordEnding] which is equivalent since composition is an associative operator. Why is this more efficient?\\
+
+This is more efficient because it only builds a machine for the rhymes of one word at a time, instead of building rhymes for all of the words at the onset.\\
+
+Try it out and give some interesting input/output examples. Does the dictionary have a rhyme for orange? For adventureland? \\
+It does not have a rhyme for orange or adventureland.\\
+
+It doesn’t have a rhyme for orange since no other words in cmudict.txt end in the same rhyme ending.\\
+
+It doesn’t have a rhyme for adventureland since adventureland never shows up in cmudict.txt, so it doesn’t have an ARPA representation for that word to begin with, and we get a ``Rewrite failed” error.\\
+
+Sadly, there are no rhymes for ``supercalifragilisticexpialidocious” for the same reason.\\
+
+There are 17 strings that rhyme with ‘jason’ in cmudict.txt.\\
+
+\newpage
+
+\section{}
+
+(a) i. What is the minimum-weight string accepted by this FSA, and what is the weight of that string? (Remember that parentheses in Thrax just represent grouping, not optionality.) (Zero $<1>$) (Bit+ $<0.2>$) (One $<0.5>$)\\
+
+``011” and ``001” are minimum-weight strings accepted by this FSA, and their weights are 1.7.\\
+
+ii.What is the minimum-weight pair of strings accepted by this FST, and what is the weight of that pair? (Zero : One $<1>$) (Bit+ $<0.2>$) (One : One One $<0.75>$)\\
+
+``011:1111” and ``001:1011” are minimum-weight pairs of strings accepted by this FST, and their weights are 1.95.\\
+
+(b) See code\\
+
+(c) i. In your README, name any two binary strings x, y: for example, (x, y) = (00, 1). In binary.grm, define WeightedMultipath to be a simple weighted FST of your choice, such that the particular pair (x, y) that you named will be accepted along at least two different paths, of different weights. To confirm that these two accepting paths exist, view a drawing of the machine, and use grmtest to find out what x maps to. What are the weights of these paths?\\
+
+(x, y) = (00, 1)\\
+
+We defined WeightedMultipath = Optimize[((Zero: One $<0.5>$) (Zero: "" $<0.6>$)) $|$ ((Zero: "" $<0.2>$) (Zero: One $<0.1>$))];\\
+
+The weights of the two paths are 1.1 and 0.3.\\
+
+When we run grmtest on the input 00, we get one output of 1 with a weight of 0.3, which is the minimum weight it could be assigned by this FST.\\
+
+ii. Now define WeightedMultipathOpt = Optimize[WeightedMultipath]. In this FST, how many paths accept (x, y) and what are their weights? Why?\\
+
+There are still two paths that accept (x,y) and their weights are still 1.1 and 0.3. This is because the FST is the exact same in both cases, but one is simply optimal while the other is not. The optimized versions removed a lot of epsilon:epsilon transitions.\\
+
+\newpage
+
+iii. Describe, in English, what the following weighted languages or relations tell you about T:\\
+T\_out = Project[ T, ’output’];\\
+This accepts strings in the output language of T.\\
+Input string: 1\\
+Output string: 1 $<$cost=0.300000$>$\\
+
+xT\_out = Project[ x @ T, ’output’];\\
+This accepts the output strings that can result when x is input to T\\
+Input string: 1\\
+Output string: 1 $<$cost=0.300000$>$\\
+
+Ty\_in = Project[ T @ y, ’input’];\\
+This accepts input strings to T which could have resulted in the output y\\
+Input string: 00\\
+Output string: 00 $<$cost=0.300000$>$\\
+
+xTy = x @ T @ y; \\
+This transduces x to y if (x,y) is a pair in T.\\
+Input string: 00\\
+Output string: 1 $<$cost=0.300000$>$\\
+exTye = ("":x) @ T @ (y:"");\\
+This accepts epsilon if (x,y) is in T.\\
+Input string: \\
+Output string:  $<$cost=0.300000$>$\\
+
+xT\_out\_opt = Optimize[xT\_out];\\
+This functions in the same way as xT\_out, but it uses less memory and constructs a more concise FST.\\
+
+Ty\_in\_opt = Optimize[Ty\_in];\\
+This functions in the same way as Ty\_in, but it uses less memory and constructs a more concise FST.\\
+
+exTye\_opt = Optimize[exTye];\\
+This functions in the same way as exTye, but it uses less memory and constructs a more concise FST.\\
+
+The last FSM will have one state, which is an accepting state, since it takes as input epsilon and produces epsilon as output.\\
+
+The last three FSMs have practical importance because you can test an input, output, or a pair, respectively, without building the entire FST T.
+
+\newpage
+\section{}
+
+(a)\\
+
+wc -w entrain.txt\\
+95936 tokens\\
+wc -l entrain.alpha\\
+12410 types\\
+fstinfo entrain.fst\\
+68478 states, 217384 arcs\\
+
+(b)\\
+-bash-4.3\$ ngramrandgen --max\_sents=1 entrain.fst $|$ farprintstrings\\
+The $<$epsilon$>$ $<$epsilon$>$ turns out $<$epsilon$>$ of $<$epsilon$>$ her $<$epsilon$>$ $<$epsilon$>$ services $<$epsilon$>$ hats $<$epsilon$>$ years , and $<$epsilon$>$ $<$epsilon$>$ composers $<$epsilon$>$ in the oil $<$epsilon$>$ $<$epsilon$>$ -RRB- on $<$epsilon$>$ a $<$epsilon$>$ high $<$epsilon$>$ . $<$epsilon$>$ -RRB-\\
+
+
+-bash-4.3\$ ngramrandgen --max\_sents=1 --remove\_epsilon entrain.fst $|$ farprintstrings\\
+`` of with pilot union sales term broker-dealer subsidiary you would n't seem to loom as an new rose 12 liquidity system the match founded consumers and you thug at the range .\\
+
+-bash-4.3\$ fstprintstring entrain.fst\\
+International Minerals .\\
+
+-bash-4.3\$ fstshortestpath entrain.fst $|$ fstprintstring\\
+.\\
+
+How long are the strings in both cases, and why? What do you notice about backoff? \\
+
+We’re not sure why the lengths of the strings returned by ngramrandgem --remove\_epsilon are so much longer than those returned by fstprintstring. However, the Viterbi output is so much shorter than the random output, because more probabilities are multiplied together in longer sentences, so the shortest path sentence contains fewer words.\\
+
+(c) Nothing to hand in\\
+
+\newpage
+
+(d) \\
+
+Input string: Andy cherished the barrels each house made .\\
+Output string: Andycherishedthebarrelseachhousemade. $<$cost=67.428375$>$\\
+
+Input string: If only the reporters had been nice .\\
+Output string: Ifonlythereportershadbeennice. <cost=49.260426>\\
+
+For the first two sentences, the FST accepts them since they consist of bigrams or unigrams that exist in the LM, and it outputs the same input sentence but with the spaces removed. \\
+
+Input string: Thank you\\
+Unable to parse input string.\\
+
+For the third sentence, the FST is unable to transduce it since ``Thank” does not appear in the training corpus. All of the words in the first two sentences do appear in the training corpus. If we want the LM to evaluate a string that includes an OOV, we have to replace the word that was not in the corpus with $<$unk$>$ first.\\
+For example:\\
+
+Input string: $<$unk$>$ you\\
+Output string: $<$unk$>$you $<$cost=23.065186$>$\\
+
+(e)\\
+Input string: b a r r \\
+Output string: barriers $<$cost=19.314991$>$\\
+Output string: barrels $<$cost=19.615818$>$\\
+Output string: barrel $<$cost=19.993179$>$\\
+Output string: barrage $<$cost=20.031345$>$\\
+Output string: barrier $<$cost=20.048569$>$\\
+
+Yes, the cost is just the unigram cost assigned to each of these words by LM. These represent the negative log of the unigram probabilities.\\
+
+\newpage
+
+\section{}
+
+a) See code\\
+
+b) Nothing to answer\\
+
+(c) See code\\
+
+
+(d) \\
+Input string: Ifonlythereporterhadbeennice\\
+Output string: If only the reporter had been nice $<$cost=54.128696$>$\\
+
+There is only one way to parse this using our LM, so only one output and its cost is reported.\\
+
+Input string: If only.\\
+Rewrite failed.\\
+
+Since our input is fed into Invert[DelSpaces] first, it cannot contain any spaces. This input contained spaces so we could not parse it.\\
+
+Input string: ThereportersaidtothecitythatEveryoneIskilled.\\
+Output string: The reporters aid to the city that Everyone Is killed . $<$cost=70.201019$>$\\
+Output string: The reporter said to the city that Everyone Is killed . $<$cost=70.476089$>$\\
+Output string: The reporters aid to the city that Everyone I skilled . $<$cost=73.106514$>$\\
+Output string: The reporter said to the city that Everyone I skilled . $<$cost=73.381584$>$\\
+Output string: The reporters aid to the city that Every one Is killed . $<$cost=77.453346$>$\\
+Output string: The reporter said to the city that Every one Is killed . $<$cost=77.728409$>$\\
+Output string: The reporters aid to the city that Every one I skilled . $<$cost=80.358833$>$\\
+Output string: The reporter said to the city that Every one I skilled . $<$cost=80.633904$>$\\
+
+There are eight different ways to parse the input using our LM. Since it’s a language model, it assigns various probabilities to each pair of words, which accounts for the different costs. It seems surprising that the lowest cost output starts with ``The reporters aid to the city”, since we would expect ``reporters said” to have a higher probability than ``reporters aid.” \\
+
+Input string: Thankyou.\\
+Rewrite failed.\\
+
+Thank does not appear in entrain.txt, so we cannot parse this.\\
+
+\newpage
+
+(e) \\
+i. What do $w_1$ and $w_2$ represent? Hint: the costs 0.1 and 2.3 are the negative logs of 0.9 and 0.1.\\
+
+$w_1$ is the cost of adding another random character to the word. $w_2$ is the cost of starting the word.\\
+
+ii. For each $n \geq 0$, what is the probability $p_n$ that the string generated by RandomWord will have length n?\\
+For $n = 0$:\\
+$0$\\
+For $n > 0$\\
+$0.1*(0.9)^(n-1)$\\
+
+iii. What is the sum of those probabilities, $\sum_{n=0}^{\infty} p_n$?\\
+
+$0.1 + 0.09 + 0.0081 + 0.000729 + \ldots = 0.1 + 0.1*0.9 + 0.1*(0.9)^2 + 0.1*(0.9)^3 + \ldots$\\
+This is a geometric series $(a + ar + ar^2 + \ldots)$ with $a = 0.1$ and $r = 0.9$. The sum thus is $a/(1-r)$, which is $0.1/(1 - 0.9) = 0.1/0.1 = 1$. \\
+
+iv. How would you change $w_1$ and $w_2$ to get longer random words on average?\\
+
+We would decrease $w_1$ and then modify $w_2$ so that the sum of the probabilities was still 1. This will happen when $exp(-w_2) = 1 - exp(-w_1)$.\\
+
+v. If you decreased both w1 and w2, then what would happen to the probabilities of the random words? How would this affect the behavior of your decoder? Why?\\
+
+The ``probabilities” of random words would then sum to more than 1.\\
+
+vi. How could you improve the probability models RandomChar and RandomWord?\\
+
+We could assign different weights to different character bigrams to better capture the structure of our training data.\\
+
+\newpage
+
+(f)\\
+
+Input string: Ifonlythereporterhadbeennice.\\
+Output string: If only the reporter had been nice . $<$cost=50.265827$>$\\
+Output string: $<$unk$>$ only the reporter had been nice . $<$cost=64.248047$>$\\
+Output string: I $<$unk$>$ only the reporter had been nice . $<$cost=65.173706$>$\\
+Output string: If only the report $<$unk$>$ had been nice . $<$cost=65.222122$>$\\
+Output string: If on $<$unk$>$ the reporter had been nice . $<$cost=67.365417$>$\\
+Output string: If only $<$unk$>$ he reporter had been nice . $<$cost=67.444946$>$\\
+Output string: If only the reporter had been $<$unk$>$ . $<$cost=67.459785$>$\\
+Output string: If only the reporter had been nice $<$unk$>$ $<$cost=68.569626$>$\\
+Output string: If only $<$unk$>$ reporter had been nice . $<$cost=69.336746$>$\\
+Output string: If $<$unk$>$ the reporter had been nice . $<$cost=71.009872$>$\\
+Output string: If only the reporter $<$unk$>$ ad been nice . $<$cost=72.637932$>$\\
+Output string: If only the reporter $<$unk$>$ been nice . $<$cost=73.253716$>$\\
+Output string: $<$unk$>$ $<$unk$>$ only the reporter had been nice . $<$cost=74.048965$>$\\
+Output string: $<$unk$>$ the reporter had been nice . $<$cost=74.782883$>$\\
+Output string: If only the reporter had be $<$unk$>$ nice . $<$cost=74.846390$>$\\
+Output string: If only the report $<$unk$>$ $<$unk$>$ had been nice . $<$cost=75.023048$>$\\
+Output string: If on $<$unk$>$ he reporter had been nice . $<$cost=75.095108$>$\\
+Output string: I $<$unk$>$ the reporter had been nice . $<$cost=76.116837$>$\\
+
+Now there are more possibilities since $<$unk$>$ can go to any random word\\
+
+Input string: If only.\\
+Rewrite failed.\\
+
+This still fails since InvDelSpaces cannot take an input which contains any spaces.\\
+
+\newpage
+
+Input string: ThereportersaidtothecitythatEveryoneIskilled.\\
+Output string: The reporters aid to the city that Everyone Is killed . $<$cost=70.201019$>$\\
+Output string: The reporter said to the city that Everyone Is killed . $<$cost=70.476089$>$\\
+Output string: The reporters aid to the city that Everyone I skilled . $<$cost=73.106514$>$\\
+Output string: The reporter said to the city that Everyone I skilled . $<$cost=73.381584$>$\\
+Output string: The reporters aid to the city that Every one Is killed . $<$cost=77.453346$>$\\
+Output string: The reporter said to the city that Every one Is killed . $<$cost=77.728409$>$\\
+Output string: The reporters aid to the city that Everyone $<$unk$>$ killed . $<$cost=79.262077$>$\\
+Output string: The reporter said to the city that Everyone $<$unk$>$ killed . $<$cost=79.537140$>$\\
+Output string: The reporters aid to the city that Everyone $<$unk$>$ skilled . $<$cost=79.691376$>$\\
+Output string: The reporter said to the city that Everyone $<$unk$>$ skilled . $<$cost=79.966446$>$\\
+Output string: The reporters aid to the city that Every one I skilled . $<$cost=80.358833$>$\\
+Output string: The reporter said to the city that Every one I skilled . $<$cost=80.633904$>$
+
+Same reasoning as the first sentence: there are more possibilities since $<$unk$>$ can go to any random word\\
+
+Input string: Thankyou.\\
+Output string: $<$unk$>$ you . $<$cost=43.276428$>$\\
+Output string: $<$unk$>$ an $<$unk$>$ you . $<$cost=48.071754$>$\\
+Output string: $<$unk$>$ . $<$cost=49.837250$>$\\
+Output string: $<$unk$>$ a $<$unk$>$ you . $<$cost=52.391670$>$\\
+Output string: $<$unk$>$ $<$unk$>$ you . $<$cost=53.077351$>$\\
+Output string: $<$unk$>$ an $<$unk$>$ . $<$cost=54.632584$>$\\
+Output string: $<$unk$>$ $<$unk$>$ an $<$unk$>$ you . $<$cost=57.872681$>$\\
+Output string: $<$unk$>$ a $<$unk$>$ . $<$cost=58.952492$>$\\
+Output string: $<$unk$>$ $<$cost=59.076740$>$\\
+Output string: <unk> <unk> . <cost=59.638172>\\
+
+We couldn’t parse this before, but now $<$unk$>$ can help explain Thank, which is an OOV word. Also the lowest cost is assigned to $<$unk$>$ you . which is what we would expect.\\
+
+\newpage
+
+(g) Look at the results in entest-recovered.txt. What kinds of errors can you spot? Does this qualitative error analysis give you any ideas how to improve your decoder?\\
+
+There are many $<$unk$>$ tokens that replace portions of words rather than full words. For example, ``recommending” in entest.txt is written ``$<$unk$>$ ending” in entest-recovered.txt. Additionally, the decoder has a hard time recovering names, which may not have appeared in the original training corpus. In fact, proper nouns in general seem to be difficult to recover, which intuitively makes sense. The decoder doesn’t only mess up instances that contain OOVs, however. For example, ``a drum roll” in entest.txt is written ``ad rum roll” in entest-recovered.txt.\\
+
+Decimal points are difficult to recover, too. The decoder thinks the end of sentence marker ``.” is the most common symbol to follow anything, so numbers like ``10.2 billion” in entest.txt are written as ``10 . 2 billion” as if the end of the last sentence was ``10” and the beginning of the next sentence was ``2”.\\
+
+These kinds of issues could be built into our decoder. For example, we could come up with some method of identifying proper nouns or numbers and representing them with some special symbols for decoding, and then transducing them back to their usual forms after decoding.\\
+
+(h) Run editdist entest.txt entest-recovered.txt.\\
+
+This will compare each recovered sentence to the original. Do the scores match your intuitive, qualitative results from 11g?\\
+
+These scores capture errors in which spaces were inserted in the wrong place, but they also penalize us for replacing unknown words with $<$unk$>$, which is desired behavior. \\
+
+\end{document}
