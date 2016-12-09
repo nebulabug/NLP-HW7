@@ -9,35 +9,37 @@ RandomChar = bytelib.kGraph <4.54>;
 export RandomWord = Optimize[(RandomChar (RandomChar <0.1>)*) <2.3>];
 SpellOOV = "<unk>".vocab:RandomWord;
 
-#export Spell = StringFile['entrain.alpha', vocab, byte] | SpellOOV;
+export Spell = StringFile['entrain.alpha', vocab, byte] | SpellOOV;
 
-export Spell = StringFile['entrain.alpha', vocab, byte];
+#export SpellTen = StringFile['entrain.alpha', vocab, byte];
 
-export CompleteWord = Optimize[(ByteSigmaStar ("":ByteSigmaStar) @ Project[Spell, 'output']) @ Invert[Spell] @ LM];
+#export CompleteWord = Optimize[(ByteSigmaStar ("":ByteSigmaStar) @ Project[SpellTen, 'output']) @ Invert[SpellTen] @ LM];
 
-#export CompleteWordInContext = ((Invert[Spell] " ":"".vocab)* ((ByteSigmaStar ("":ByteSigmaStar) @ Project[Spell, 'output']) @ Invert[Spell]));
+#export RemoveSpace = Optimize[" ".byte:"".vocab];
 
-export RemoveSpace = Optimize[" ".byte:"".vocab];
+#export CompleteWordInContext = Optimize[(Invert[SpellTen] RemoveSpace)* (((ByteSigma - "")+ ("":ByteSigmaStar) @ Project[SpellTen, 'output']) @ Invert[SpellTen])];
 
-export CompleteWordInContext = Optimize[(Invert[Spell] RemoveSpace)* (((ByteSigma - "")+ ("":ByteSigmaStar) @ Project[Spell, 'output']) @ Invert[Spell])];
-
-export GetLastWord = (Project[Spell, 'input']:"".vocab)* Project[Spell, 'input'];
+#export GetLastWord = (Project[SpellTen, 'input']:"".vocab)* Project[SpellTen, 'input'];
 
 #export DelSpaces = CDRewrite[bytelib.kSpace:"", ByteSigmaStar, ByteSigmaStar, ByteSigmaStar, 'sim', 'obl'];
 
-#export OutputSpace = "".vocab:" ".byte;
+export DelSomeSpaces = CDRewrite[bytelib.kSpace:"", ByteSigmaStar, ByteSigmaStar, ByteSigmaStar, 'sim', 'opt'];
 
-#export SpellText = (Spell OutputSpace)* Spell;
+export OutputSpace = "".vocab:" ".byte;
+
+export SpellText = (Spell OutputSpace)* Spell;
 
 #export Generate = LM @ SpellText @ DelSpaces;
 
-#export InvLM = Invert[LM];
+export InvLM = Invert[LM];
 
-#export InvSpellText = Invert[SpellText];
+export InvSpellText = Invert[SpellText];
 
 #export InvDelSpaces = Invert[DelSpaces];
 
-#export SpellUnk = (StringFile['entrain.alpha', vocab, byte] | ("<unk>".vocab:"<unk>".byte));
+export InvDelSomeSpaces = Invert[DelSomeSpaces];
 
-#export PrintText = (SpellUnk OutputSpace)* SpellUnk;
+export SpellUnk = (StringFile['entrain.alpha', vocab, byte] | ("<unk>".vocab:"<unk>".byte));
+
+export PrintText = (SpellUnk OutputSpace)* SpellUnk;
 
