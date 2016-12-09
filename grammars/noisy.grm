@@ -9,25 +9,31 @@ RandomChar = bytelib.kGraph <4.54>;
 export RandomWord = Optimize[(RandomChar (RandomChar <0.1>)*) <2.3>];
 SpellOOV = "<unk>".vocab:RandomWord;
 
-export Spell = StringFile['entrain.alpha', vocab, byte] | SpellOOV;
+#export Spell = StringFile['entrain.alpha', vocab, byte] | SpellOOV;
 
-#export CompleteWord = Optimize[(ByteSigmaStar ("":ByteSigmaStar) @ Project[Spell, 'output']) @ Invert[Spell] @ LM];
+export Spell = StringFile['entrain.alpha', vocab, byte];
 
-export DelSpaces = CDRewrite[bytelib.kSpace:"", ByteSigmaStar, ByteSigmaStar, ByteSigmaStar, 'sim', 'obl'];
+export CompleteWord = Optimize[(ByteSigmaStar ("":ByteSigmaStar) @ Project[Spell, 'output']) @ Invert[Spell] @ LM];
 
-export OutputSpace = "".vocab:" ".byte;
+export CompleteWordInContext = ((Invert[Spell] " ":" ".vocab)* ((ByteSigmaStar ("":ByteSigmaStar) @ Project[Spell, 'output']) @ Invert[Spell]));
 
-export SpellText = (Spell OutputSpace)* Spell;
+#export GetLastWord = vocab*:"" vocab;
+
+#export DelSpaces = CDRewrite[bytelib.kSpace:"", ByteSigmaStar, ByteSigmaStar, ByteSigmaStar, 'sim', 'obl'];
+
+#export OutputSpace = "".vocab:" ".byte;
+
+#export SpellText = (Spell OutputSpace)* Spell;
 
 #export Generate = LM @ SpellText @ DelSpaces;
 
-export InvLM = Invert[LM];
+#export InvLM = Invert[LM];
 
-export InvSpellText = Invert[SpellText];
+#export InvSpellText = Invert[SpellText];
 
-export InvDelSpaces = Invert[DelSpaces];
+#export InvDelSpaces = Invert[DelSpaces];
 
-export SpellUnk = (StringFile['entrain.alpha', vocab, byte] | ("<unk>".vocab:"<unk>".byte));
+#export SpellUnk = (StringFile['entrain.alpha', vocab, byte] | ("<unk>".vocab:"<unk>".byte));
 
-export PrintText = (SpellUnk OutputSpace)* SpellUnk;
+#export PrintText = (SpellUnk OutputSpace)* SpellUnk;
 
