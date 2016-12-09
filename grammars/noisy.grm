@@ -15,7 +15,11 @@ export Spell = StringFile['entrain.alpha', vocab, byte];
 
 export CompleteWord = Optimize[(ByteSigmaStar ("":ByteSigmaStar) @ Project[Spell, 'output']) @ Invert[Spell] @ LM];
 
-export CompleteWordInContext = ((Invert[Spell] " ":" ".vocab)* ((ByteSigmaStar ("":ByteSigmaStar) @ Project[Spell, 'output']) @ Invert[Spell]));
+#export CompleteWordInContext = ((Invert[Spell] " ":"".vocab)* ((ByteSigmaStar ("":ByteSigmaStar) @ Project[Spell, 'output']) @ Invert[Spell]));
+
+export RemoveSpace = Optimize[" ".byte:"".vocab];
+
+export CompleteWordInContext = Optimize[(Invert[Spell] RemoveSpace)* ((ByteSigmaStar ("":ByteSigmaStar) @ Project[Spell, 'output']) @ Invert[Spell])];
 
 #export GetLastWord = vocab*:"" vocab;
 
