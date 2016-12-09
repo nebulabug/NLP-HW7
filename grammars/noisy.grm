@@ -21,7 +21,7 @@ export RemoveSpace = Optimize[" ".byte:"".vocab];
 
 export CompleteWordInContext = Optimize[(Invert[Spell] RemoveSpace)* (((ByteSigma - "")+ ("":ByteSigmaStar) @ Project[Spell, 'output']) @ Invert[Spell])];
 
-export GetLastWord = vocab*:"" vocab;
+export GetLastWord = (Project[Spell, 'input']:"".vocab)* Project[Spell, 'input'];
 
 #export DelSpaces = CDRewrite[bytelib.kSpace:"", ByteSigmaStar, ByteSigmaStar, ByteSigmaStar, 'sim', 'obl'];
 
