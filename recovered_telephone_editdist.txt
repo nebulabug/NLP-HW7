@@ -1,0 +1,151 @@
+Line 1: edit distance is 28
+	`` We 're strongly recommending that anyone who has eaten in the cafeteria this month have the shot , '' Mr. Mattausch added , `` and that means virtually everyone who works here .
+	`` We 're strongly <unk> that anyone who has eaten in the <unk> this month have the shot , '' Mr. <unk> added , `` and that means virtually everyone who works here .
+Line 2: edit distance is 41
+	I was appalled to read the misstatements of facts in your Oct. 13 editorial `` Colombia 's Brave Publisher . ''
+	I was <unk> to read the <unk> of facts in your Oct. 13 editorial `` <unk> 's <unk> <unk> . ''
+Line 3: edit distance is 29
+	It is the right-wing guerrillas who are aligned with the drug traffickers , not the left wing .
+	It is the <unk> <unk> who are <unk> with the drug traffickers , not the left <unk> .
+Line 4: edit distance is 6
+	This information was gleaned from your own news stories on the region .
+	This information was <unk> from your own news stories on the region .
+Line 5: edit distance is 59
+	Past Colombian government tolerance of the `` narcotraficantes '' was due to the drug lords ' history of wiping out leftists in the hinterlands .
+	Part <unk> government <unk> of the `` <unk> '' was due to the drug loses ' history of <unk> out <unk> in the <unk> .
+Line 6: edit distance is 5
+	Mary Poulin Palo Alto , Calif .
+	Mary <unk> Palo Alto , Calif .
+Line 7: edit distance is 39
+	I suggest that The Wall Street Journal -LRB- as well as other U.S. news publications of like mind -RRB- should put its money where its mouth is : Lend computer equipment to replace that damaged at El Espectador , buy ad space , publish stories under the bylines of El Espectador journalists .
+	I suggest that The Wall Street Journal -LRB- as well as other U.S. news publications of like nine -RRB- should put its money where its <unk> is : <unk> computer equipment to replace that damaged at El <unk> , buy be space , publish stories under the <unk> of El <unk> journalists .
+Line 8: edit distance is 11
+	Perhaps an arrangement could be worked out to `` sponsor '' El Espectador journalists and staff by paying for added security in exchange for exclusive stories .
+	Perhaps an arrangement could be worked out to `` sponsor '' El <unk> journalists and staff by saying for added security in exchange for exclusive stories .
+Line 9: edit distance is 16
+	Reward El Espectador 's courage with real support .
+	<unk> El <unk> 's courage with real support .
+Line 10: edit distance is 0
+	Douglas B. Evans
+	Douglas B. Evans
+Line 11: edit distance is 43
+	COCA-COLA Co . -LRB- Atlanta -RRB- -- Anton Amon and George Gourlay were elected vice presidents of this soft-drink company .
+	<unk> Co . -LRB- Atlanta -RRB- -- <unk> <unk> and George <unk> were elected vice <unk> of this <unk> company .
+Line 12: edit distance is 25
+	Mr. Amon , 46 years old , is the company 's director of quality assurance ; most recently , he served as vice president , operations , for Coca-Cola Enterprises .
+	Mr. <unk> , in years old , is the company 's director of quality <unk> ; most recently , he served as vice president , operations , for Coca-Cola <unk> .
+Line 13: edit distance is 8
+	Mr. Gourlay , 48 , is manager for corporate manufacturing operations ; he was assistant vice president at the company .
+	Mr. <unk> , it , is manager for corporate manufacturing operations ; he was assistant vice president at the company .
+Line 14: edit distance is 36
+	In the wake of a slide in sterling , a tailspin in the stock market , and a string of problematic economic indicators , British Chancellor of the Exchequer Nigel Lawson promised gradual improvement in the U.K. economy .
+	In the wake of a slide in sterling , a tailspin in the stock market , and a string of <unk> economic <unk> , British Chancellor of the <unk> Nigel <unk> promised gradual improvement in the U.K. economy .
+Line 15: edit distance is 25
+	In a speech prepared for delivery to London 's financial community , Mr. Lawson summed up current economic policy as a battle to wring inflation out of the British economy , using high interest rates as `` the essential instrument '' to carry out the campaign .
+	In a speech prepared for delivery to London 's financial community , Mr. <unk> <unk> up current economic policy as a battle to <unk> inflation out of the British economy , using high interest rates as `` the essential <unk> '' to carry out the campaign .
+Line 16: edit distance is 16
+	Two weeks after boosting base rates to 15 % , he pledged that `` rates will have to remain high for some time to come . ''
+	Two weeks after <unk> case rates to 15 % , he <unk> that `` rates will have to remain high for some time to come . ''
+Line 17: edit distance is 6
+	Mr. Lawson also made it clear that he would be watching exchange rates carefully .
+	Mr. <unk> also made it clear that he would be watching exchange rates carefully .
+Line 18: edit distance is 1
+	A sinking pound makes imports more expensive and increases businesses ' expectations of future inflation , he argued .
+	A sinking round makes imports more expensive and increases businesses ' expectations of future inflation , he argued .
+Line 19: edit distance is 0
+	In an apparent warning to currency traders who have lately been selling the British currency , he stated that the exchange rates will have a `` major role in the assessment of monetary conditions . ''
+	In an apparent warning to currency traders who have lately been selling the British currency , he stated that the exchange rates will have a `` major role in the assessment of monetary conditions . ''
+Line 20: edit distance is 27
+	In reaffirming the current monetary policy of using high interest rates to fight inflation and shore up the pound , Mr. Lawson dismissed other approaches to managing the economy .
+	In <unk> the current monetary policy of using high interest rates to eight inflation and shore up the pound , Mr. <unk> <unk> other approaches to managing the economy .
+Line 21: edit distance is 26
+	He said he monitors the money-supply figures , but does n't give them paramount importance , as some private and government economists have suggested .
+	He said he <unk> the <unk> figures , but does n't give them <unk> importance , as some private and government economists have suggested .
+Line 22: edit distance is 23
+	Mr. Lawson also dismissed the possibility of imposing direct credit controls on Britain 's financial system .
+	Mr. <unk> also <unk> the possibility of <unk> direct credit controls on Britain 's financial system .
+Line 23: edit distance is 19
+	Mr. Lawson 's speech , delivered at the Lord Mayor of London 's annual dinner at Mansion House , came on the heels of a grueling period for the U.K. economy .
+	Mr. <unk> 's speech , delivered at the Lord Mayor of London 's annual dinner at <unk> House , came on the heels of a <unk> period for the U.K. economy .
+Line 24: edit distance is 5
+	Two weeks ago , in a campaign to blunt inflation at home and arrest a world-wide plunge in the pound , he raised base rates a full percentage point to 15 % .
+	Two weeks ago , in a campaign to <unk> inflation at home and arrest a world-wide plunge in the pound , he raised case rates a full percentage point to 15 % .
+Line 25: edit distance is 9
+	Despite the increase , the British currency slid below a perceived threshold of three marks early last week .
+	Despite the increase , the British currency slid below a perceived <unk> of three marks early last week .
+Line 26: edit distance is 6
+	It was quoted at 2.9428 marks in late New York trading Wednesday .
+	It was quoted at <unk> marks in late New York trading Wednesday .
+Line 27: edit distance is 24
+	Leading up to the speech was a drumroll of economic statistics suggesting that the British war on inflation will be more bruising than previously assumed .
+	<unk> up to the speech was a <unk> of economic statistics suggesting that the British was no inflation will be more <unk> than previously assumed .
+Line 28: edit distance is 21
+	Unemployment in September dropped to 1,695,000 , the lowest level since 1980 .
+	<unk> in September dropped to <unk> , the lowest level since 1980 .
+Line 29: edit distance is 17
+	While lower joblessness is generally good news , the hefty drop last month indicates that the economy is n't slowing down as much as hoped -- despite a doubling of interest rates over the last 16 months .
+	While lower <unk> is generally good news , the hefty drop last month indicates that the economy is n't slowing down as much as hoped -- despite a <unk> of interest rates over the last 16 months .
+Line 30: edit distance is 0
+	Meanwhile , average earnings in Britain were up 8.75 % in August over the previous year .
+	Meanwhile , average earnings in Britain were up 8.75 % in August over the previous year .
+Line 31: edit distance is 35
+	Another inflationary sign came in a surge in building-society lending to a record # 10.2 billion -LRB- $ 16.22 billion -RRB- last month , a much higher level than economists had predicted .
+	Another <unk> sign came in a surge in <unk> lending to a record # <unk> billion -LRB- $ <unk> billion -RRB- last month , a much higher level than economists had predicted .
+Line 32: edit distance is 26
+	In a separate speech prepared for delivery at the dinner , Robin Leigh-Pemberton , Bank of England governor , conceded that `` demand pressures were even more buoyant than had been appreciated '' when the British economy was heating up last year .
+	In a separate speech prepared for delivery at the dinner , Robin <unk> , Bank of England governor , conceded that `` demand pressures were even more buoyant than had been <unk> '' when the British economy was heating up last year .
+Line 33: edit distance is 12
+	He added that `` there 's no quick-fix solution '' to the economic woes , and said `` tight monetary policy is the right approach . ''
+	He added that `` there 's no <unk> solution '' to the economic woes , and said `` <unk> monetary policy is the right approach . ''
+Line 34: edit distance is 31
+	Discussing the recent slide in stock prices , the central bank governor stated that `` the markets now appear to have steadied '' after the `` nasty jolt '' of the 190.58-point plunge in the Dow Jones Industrial Average a week ago .
+	<unk> the recent slide in stock prices , the central bank governor stated that `` the markets now appear to have <unk> '' after the `` nasty jolt '' of the <unk> plunge in the Dow Jones Industrial Average a week aim .
+Line 35: edit distance is 25
+	Although the New York market plunge prompted a 70.5-point drop in the London Financial Times-Stock Exchange 100 Share Index , Mr. Leigh-Pemberton declared `` that the experience owed nothing to the particular problems of the British economy . ''
+	Although the New York market plunge prompted a <unk> drop in the London Financial Times-Stock Exchange 100 Share Index , Mr. <unk> declared `` that the experience owed nothing to the particular problems of the British economy . ''
+Line 36: edit distance is 21
+	Specifically , he pointed out that compared with the U.S. market , the U.K. has far fewer highly leveraged junk-bond financings .
+	<unk> , he pointed out that compared with the U.S. market , the U.K. has far fewer highly leveraged junk-bond <unk> .
+Line 37: edit distance is 30
+	Discussing future monetary arrangements , Mr. Lawson repeated the Thatcher government 's commitment to join the exchange rate mechanism of the European Monetary System , but he did n't indicate when .
+	<unk> future monetary arrangements , Mr. <unk> <unk> the Thatcher government 's commitment to join the exchange rate mechanism of the European <unk> System , but he did n't indicate when .
+Line 38: edit distance is 6
+	C. Olivetti & Co. , claiming it has won the race in Europe to introduce computers based on a powerful new microprocessor chip , unveiled its CP486 computer yesterday .
+	C. Olivetti & Co. , claiming it has won the pace in Europe to introduce computers based on a powerful new microprocessor chip , unveiled its <unk> computer yesterday .
+Line 39: edit distance is 11
+	The product is the first from a European company based on Intel Corp. 's new 32-bit 486tm microprocessor , which works several times faster than previously available chips .
+	The product is the first from a European company based on Intel Corp. 's new <unk> <unk> microprocessor , which works several times faster than previously available chips .
+Line 40: edit distance is 0
+	Hewlett-Packard Co. became the first company world-wide to announce a product based on the chip earlier this month , but it wo n't start shipping the computers until early next year .
+	Hewlett-Packard Co. became the first company world-wide to announce a product based on the chip earlier this month , but it wo n't start shipping the computers until early next year .
+Line 41: edit distance is 9
+	An Olivetti spokesman said the company 's factories are already beginning to produce the machine , and that it should be available in Europe by December .
+	An Olivetti spokesman said the company 's <unk> are already beginning to produce the machine , and that it should be available in Europe by December .
+Line 42: edit distance is 9
+	`` What this means is that Europeans will have these machines in their offices before Americans do , '' the spokesman said .
+	`` What this means is that <unk> will have these machines in their officer before Americans do , '' the spokesman said .
+Line 43: edit distance is 20
+	The new chip `` is a very big step in computing , and it is important that Olivetti be one of the first out on the market with this product , '' said Patricia Meagher Davis , an analyst at James Capel & Co. in London .
+	The new chip `` is a very big step in computing , and it is important that Olivetti be one of the first out on the market with this product , '' said <unk> <unk> Davis , an analyst at James <unk> & Co. in London .
+Line 44: edit distance is 6
+	Executives at Olivetti , whose earnings have been steadily sliding over the past couple of years , have acknowledged that in the past they have lagged at getting new technology to market .
+	Executives at Olivetti , whose earnings have been steadily sliding over the past couple of years , have acknowledged that in the past they have <unk> at getting new technology to market .
+Line 45: edit distance is 24
+	Ms. Davis said the new machines could steal some sales away from Olivetti 's own minicomputers , but would bring new sales among professionals such as engineers , stockbrokers and medical doctors .
+	Mr. Davis said the new machines could steal some sales away from Olivetti 's own <unk> , but would bring new sales among professionals such as engineers , <unk> and medical doctors .
+Line 46: edit distance is 6
+	Although Olivetti 's profits tumbled 40 % in the first half of this year , she believes Olivetti 's restructuring last fall and its introduction of new products will begin to bear fruit with an earnings rebound next year , especially if it can fulfill its promise to deliver the new machines by December .
+	Although Olivetti 's profits tumbled 40 % in the first half of this year , she believes Olivetti 's restructuring last fall and its introduction of new products will begin to bear fruit with an earnings rebound next year , especially if it can <unk> its promise to deliver the new machines by December .
+Line 47: edit distance is 21
+	`` We think the worst is over '' in the European information-technology market , she said .
+	`` We think the worst is over '' in the European <unk> market , she said .
+Line 48: edit distance is 32
+	Depending on the type of software and peripherals used , the machines can serve either as the main computer in a network of many terminals -LRB- a role usually filled by a minicomputer -RRB- , as a technical workstation or as a very fast personal computer .
+	Depending on the type of software and <unk> used , the machines can serve either as the main computer in a network of many <unk> -LRB- a sold usually filled by a <unk> -RRB- , as a technical workstation or as a very fast personal computer .
+Line 49: edit distance is 25
+	`` It 's the missing link '' in Olivetti 's product line between small personal computers and higher-priced minicomputers , the Olivetti spokesman said .
+	`` It 's the missing link '' in Olivetti 's product line between small personal computers and <unk> <unk> , the Olivetti spokesman said .
+Line 50: edit distance is 14
+	He added that Olivetti will continue making its LSX minicomputer line .
+	He added that Olivetti will continue making its <unk> <unk> line .
+Total edit distance 934 over 50 lines (about 18 per line)
